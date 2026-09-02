@@ -1,0 +1,14 @@
+# Places we meet. A meetup file refers to one of these by its table name:
+#
+#     venue = "nordic-light"
+#
+# A venue used only once can be written inline in the meetup file instead.
+
+[nordic-light]
+name = "Nordic Light Hotel"
+address = "Vasagatan 11, Stockholm"
+url = "https://maps.app.goo.gl/xajg7B1DcKZiJ4Lb8"
+directions = """
+Vasagatan 11, a couple of minutes on foot from Stockholm Central Station and
+T-Centralen. We meet in the lobby bar.
+"""

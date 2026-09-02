@@ -1,0 +1,46 @@
+{% macro venue_line(venue) %}
+  {% if venue.url %}<a href="{{ venue.url }}">{{ venue.name }}</a>{% else %}{{ venue.name }}{% endif %}
+  {% if venue.address %}<span class="muted block text-sm">{{ venue.address }}</span>{% endif %}
+{% endmacro %}
+
+{# The when/where block shared by the front page and the meetup pages. #}
+{% macro meetup_meta(meetup) %}
+<dl class="my-4 grid gap-2.5 rounded-lg bg-slate-100 p-4 dark:bg-slate-800">
+  <div class="grid gap-x-3 sm:grid-cols-[4.25rem_1fr]">
+    <dt class="eyebrow pt-1">When</dt>
+    <dd><time datetime="{{ meetup.machine_date }}">{{ meetup | when }}</time></dd>
+  </div>
+  {% if meetup.venue %}
+  <div class="grid gap-x-3 sm:grid-cols-[4.25rem_1fr]">
+    <dt class="eyebrow pt-1">Where</dt>
+    <dd>{{ venue_line(meetup.venue) }}</dd>
+  </div>
+  {% endif %}
+</dl>
+{% endmacro %}
+
+{% macro cancelled_notice(meetup) %}
+  {% if meetup.cancelled %}
+  <p class="my-3 rounded border-l-4 border-red-500 bg-slate-100 px-4 py-2 font-semibold dark:bg-slate-800">
+    This meetup has been cancelled.
+  </p>
+  {% endif %}
+{% endmacro %}
+
+{# One row in the upcoming/past lists. #}
+{% macro meetup_row(meetup) %}
+<li class="py-5">
+  <time class="muted block text-sm tabular-nums" datetime="{{ meetup.machine_date }}">{{ meetup.start | day }}</time>
+  <h3 class="font-semibold{{ ' line-through' if meetup.cancelled else '' }}"><a href="{{ meetup.path }}">{{ meetup.title }}</a></h3>
+  {% if meetup.summary %}<p class="muted mt-1">{{ meetup.summary }}</p>{% endif %}
+</li>
+{% endmacro %}
+
+{# Links text to the repository when site.toml sets one, plain text otherwise. #}
+{% macro repo_link(text) %}
+{%- if config.repository -%}
+<a href="{{ config.repository }}">{{ text }}</a>
+{%- else -%}
+{{ text }}
+{%- endif -%}
+{% endmacro %}

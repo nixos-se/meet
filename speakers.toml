@@ -1,0 +1,17 @@
+# People who have spoken, or are about to. Each is a table named after the
+# key a talk uses to refer to them; only `name` is required.
+#
+#     [kim]
+#     name = "Kim Karlsson"
+#     url = "https://example.com/kim"
+#     bio = "One line, shown under every talk they give."
+#
+# A meetup file then refers to the speaker by that key:
+#
+#     [[talks]]
+#     title = "How I learned to stop worrying and love the module system"
+#     speaker = "kim"
+#
+# A one-off guest can be written inline in the meetup file instead:
+#
+#     speaker = { name = "Kim Guest", url = "https://example.com/" }

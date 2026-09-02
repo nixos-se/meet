@@ -1,0 +1,11 @@
+/public/
+.direnv/
+/result
+/result-*
+.venv/
+__pycache__/
+*.pyc
+
+# Emacs
+\#*\#
+.\#*

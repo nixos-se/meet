@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% from "_macros.html" import meetup_meta, cancelled_notice, repo_link %}
+
+{% block title %}{{ meetup.title }} - {{ config.title }}{% endblock %}
+{% block description %}{{ meetup.summary }}{% endblock %}
+{% block canonical %}{{ meetup.path | absolute }}{% endblock %}
+
+{% block content %}
+<article>
+  <p class="eyebrow">{% if meetup.is_upcoming(now) %}Upcoming{% else %}Past{% endif %} meetup</p>
+  <h1 class="mt-1 text-4xl font-bold tracking-tight{{ ' line-through' if meetup.cancelled else '' }}">{{ meetup.title }}</h1>
+  {{ cancelled_notice(meetup) }}
+  {{ meetup_meta(meetup) }}
+
+  {% if meetup.talks %}
+  <h2 class="mt-10 text-xl font-bold">Programme</h2>
+  <ol class="mt-3 list-decimal space-y-5 pl-6 marker:text-slate-400">
+    {% for talk in meetup.talks %}
+    <li>
+      <h3 class="font-semibold">{{ talk.title }}</h3>
+      {% if talk.speaker %}
+      <p class="muted text-sm">
+        {% if talk.speaker.url %}<a href="{{ talk.speaker.url }}">{{ talk.speaker.name }}</a>{% else %}{{ talk.speaker.name }}{% endif %}
+        {% if talk.speaker.bio %}<span class="block">{{ talk.speaker.bio }}</span>{% endif %}
+      </p>
+      {% endif %}
+      {% if talk.abstract %}<div class="body mt-1">{{ talk.abstract | markdown | safe }}</div>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+
+  {% if meetup.body %}<div class="body mt-10">{{ meetup.body | markdown | safe }}</div>{% endif %}
+
+  {% if meetup.venue and meetup.venue.directions %}
+  <h2 class="mt-10 text-xl font-bold">Getting there</h2>
+  <div class="body mt-3">{{ meetup.venue.directions | markdown | safe }}</div>
+  {% endif %}
+
+  {% if meetup.is_upcoming(now) and not meetup.cancelled and meetup.talks %}
+  <section class="card mt-10 bg-slate-100 dark:bg-slate-800">
+    <h2 class="text-lg font-bold">Want to give a talk?</h2>
+    <p class="mt-2">
+      There are still slots open, both full-length and lightning. Talks do not
+      have to be advanced: “here is a thing I built and what confused me” is
+      exactly the kind of talk people come for. Open a pull request against
+      {{ repo_link("this site’s repository") }} or come find us in the chat.
+    </p>
+  </section>
+  {% endif %}
+
+  <p class="mt-10 text-sm"><a href="/">← All meetups</a></p>
+</article>
+{% endblock %}

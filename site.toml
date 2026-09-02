@@ -1,0 +1,22 @@
+# Site-wide configuration for build.py.
+
+title = "NixOS Stockholm"
+tagline = "A meetup group for Nix and NixOS users in Stockholm, Sweden."
+description = """
+NixOS Stockholm is a community meetup for everyone interested in Nix, NixOS \
+and reproducible systems. We meet a few times a year in Stockholm for talks, \
+demos and hacking. Beginners are as welcome as long-time contributors.\
+"""
+base_url = "https://meet.nixos.se"
+repository = "https://github.com/nixos-se/meet"
+language = "en"
+timezone = "Europe/Stockholm"
+
+# Shown in the page footer and in the "get involved" section.
+[[links]]
+name = "Matrix"
+url = "https://matrix.to/#/#stockholm:nixos.org"
+
+[[links]]
+name = "Discourse thread"
+url = "https://discourse.nixos.org/t/nix-meetup-in-stockholm-sweden/32867"

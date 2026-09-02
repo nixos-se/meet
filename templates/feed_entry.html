@@ -1,0 +1,30 @@
+{# Standalone HTML for a feed reader: no site stylesheet, so no layout classes. #}
+<p><strong>When:</strong> {{ meetup | when }}</p>
+{% if meetup.venue %}
+<p>
+  <strong>Where:</strong>
+  {% if meetup.venue.url %}
+  <a href="{{ meetup.venue.url }}">{{ meetup.venue.name }}</a>
+  {% else %}
+  {{ meetup.venue.name }}
+  {% endif %}
+  {% if meetup.venue.address %}, {{ meetup.venue.address }}{% endif %}
+</p>
+{% endif %}
+{% if meetup.cancelled %}
+<p><strong>This meetup has been cancelled.</strong></p>
+{% endif %}
+{% if meetup.talks %}
+<p><strong>Programme:</strong></p>
+<ul>
+  {% for talk in meetup.talks %}
+  <li>{{ talk.title }}{% if talk.speaker %} ({{ talk.speaker.name }}){% endif %}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+{{ meetup.body | markdown | safe }}
+{% if meetup.venue and meetup.venue.directions %}
+<p><strong>Getting there:</strong></p>
+{{ meetup.venue.directions | markdown | safe }}
+{% endif %}
+<p><a href="{{ meetup.path | absolute }}">Details on {{ config.title }}</a></p>

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% from "_macros.html" import meetup_meta, meetup_row, cancelled_notice %}
+
+{% block content %}
+<section>
+  <h1 class="text-4xl font-bold tracking-tight">{{ config.title }}</h1>
+  <p class="muted mt-1 text-lg">{{ config.tagline }}</p>
+  <p class="mt-4">{{ config.description }}</p>
+</section>
+
+<section class="card mt-10 border-l-4 border-l-nix dark:border-l-nix-light" id="next">
+  <p class="eyebrow">Next meetup</p>
+  {% if next_meetup %}
+  <h2 class="mt-1 text-2xl font-bold"><a href="{{ next_meetup.path }}">{{ next_meetup.title }}</a></h2>
+  {{ cancelled_notice(next_meetup) }}
+  {{ meetup_meta(next_meetup) }}
+  <p>{{ next_meetup.summary }}</p>
+  <p class="mt-3 text-sm"><a href="{{ next_meetup.path }}">Full details →</a></p>
+  {% else %}
+  <h2 class="mt-1 text-2xl font-bold">Not scheduled yet</h2>
+  <p class="mt-3">
+    Nothing is on the calendar right now. Subscribe to <a href="/feed.xml">the feed</a>
+    or say hello in the chat and you will hear about the next one as soon as it is announced.
+  </p>
+  {% endif %}
+</section>
+
+{% if upcoming | length > 1 %}
+<section class="mt-10" id="upcoming">
+  <h2 class="text-xl font-bold">Also coming up</h2>
+  <ul class="divide-y divide-slate-200 dark:divide-slate-800">
+    {% for meetup in upcoming[1:] %}{{ meetup_row(meetup) }}{% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+<section class="body mt-10" id="about">
+  <h2>What to expect</h2>
+  <p>
+    Mostly conversation. There is usually no programme: turn up, say hello
+    and talk Nix. When there are talks, the meetup page lists them.
+  </p>
+  <p>
+    Everyone is welcome, whether you run NixOS on your laptop, use Nix at work,
+    or just want to find out what the fuss is about.
+  </p>
+</section>
+
+<section class="mt-10" id="past">
+  <h2 class="text-xl font-bold">Past meetups</h2>
+  {% if past %}
+  <ul class="divide-y divide-slate-200 dark:divide-slate-800">
+    {% for meetup in past %}{{ meetup_row(meetup) }}{% endfor %}
+  </ul>
+  {% else %}
+  <p class="mt-2">None yet; the first one is still ahead of us.</p>
+  {% endif %}
+</section>
+{% endblock %}
